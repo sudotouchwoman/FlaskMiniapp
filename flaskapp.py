@@ -1,13 +1,16 @@
-from flask import Flask, request, jsonify
+from flask import Flask
 import os
 
 
+BASEDIR     = os.getcwd()
+ENCODING    = 'utf-8'
+HOST        = '0.0.0.0'
+PORT        = 5000
+DEBUG       = False
 app = Flask(__name__)
-BASEDIR = os.getcwd()
-ENCODING = 'utf-8'
 
 
-def getfile(filename:str):
+def import_file(filename:str):
     global BASEDIR
     global ENCODING
     path = os.path.join(BASEDIR, 'content', filename)
@@ -21,8 +24,8 @@ def getfile(filename:str):
 
 @app.route('/json/<content>', methods = ['GET'])
 def get_content(content:str):
-    return getfile(content+'.json')
+    return import_file(content+'.json')
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=False)
+    app.run(port=PORT, debug=DEBUG)
