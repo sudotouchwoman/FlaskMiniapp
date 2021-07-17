@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 import os
+
+
 app = Flask(__name__)
 BASEDIR = os.getcwd()
 ENCODING = 'utf-8'
@@ -16,26 +18,11 @@ def getfile(filename:str):
     else:
         raise FileNotFoundError
 
-@app.route('/', methods = ['GET'])
-def okay_fine():
-    return 'Booba'
 
-
-@app.route('/estimation', methods = ['GET'])
-def get_estimation():
-    return getfile('estimation.json')
-
-
-@app.route('/variants', methods = ['GET'])
-def get_variants():
-    return getfile('variants.json')
-
-    
-@app.route('/model', methods = ['GET'])
-def get_model():
-    return getfile('model.json')
-
+@app.route('/json/<content>', methods = ['GET'])
+def get_content(content:str):
+    return getfile(content+'.json')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='127.0.0.1', port=5000, debug=False)
